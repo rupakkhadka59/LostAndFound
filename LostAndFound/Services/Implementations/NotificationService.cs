@@ -1,11 +1,16 @@
-﻿using LostAndFound.Models;
+﻿using LostAndFound.Data;
+using LostAndFound.Models;
+using LostAndFound.Models.DTOs;
 using LostAndFound.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LostAndFound.Services.Implementations;
 
 public class NotificationService : INotificationService
 {
     private readonly ApplicationDbContext _dbContext;
+    private ApplicationDbContext _context;
+    private string userId;
 
     public NotificationService(ApplicationDbContext context)
     {
@@ -21,7 +26,7 @@ public class NotificationService : INotificationService
             ItemId = item.Id,
             Message = message
         };
-        _context.Notification.Add(notification);
+        _context.Notifications.Add(notification);
         await _context.SaveChangesAsync();
     }
     public async Task NotifyNewCommentAsync(Item item, string commenterId)
@@ -38,14 +43,14 @@ public class NotificationService : INotificationService
         await _context.SaveChangesAsync();
 
     }
-    public async Task<IEnumerable<NotificationDto>> GetUserNotificationAsync(string userId
+    public async Task<IEnumerable<NotificationDto>> GetUserNotificationsAsync(string userId)
         {
         return await _context.Notifications
             .Where(n => n.UserId == userId)
             .OrderByDescending(n => n.CreatedAt)
             .Select(n => new NotificationDto
             {
-                Id - n.Id,
+                Id = n.Id,
                 Message = n.Message,
                 IsRead = n.IsRead,
                 CreatedAt = n.CreatedAt,
@@ -61,7 +66,22 @@ public class NotificationService : INotificationService
             return false;
 
         notification.IsRead = true;
-        await _context.SaveChangesASsync();
-        return true;s
+        await _context.SaveChangesAsync();
+        return true;
     }
-}
+
+    public Task<IEnumerable<NotificationDto>> GetNotificationsAsync(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task GetUserNotificationAsync(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<object> INotificationService.GetUserNotificationsAsync(string userId)
+    {
+        throw new NotImplementedException();
+    }
+} 

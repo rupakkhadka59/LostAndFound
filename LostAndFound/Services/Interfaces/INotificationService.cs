@@ -9,5 +9,7 @@ namespace LostAndFound.Services.Interfaces
         Task NotifyNewCommentAsync(Item item, string commenterId);
         Task<IEnumerable<NotificationDto>> GetNotificationsAsync(string userId);
         Task<bool> MarkAsReadAsync(int notificationId, string userId);
+        Task GetUserNotificationAsync(string userId);
+        Task<object> GetUserNotificationsAsync(string userId);
     }
 }

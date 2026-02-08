@@ -10,8 +10,8 @@ namespace LostAndFound.Models
 
         [Required]
         public string Message { get; set; } = string.Empty;
-        public EventBookmark IsRead { get; set; }
-
+        public EventBookmark isRead { get; set; }
+        public bool IsRead { get; internal set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public  int? ItemId{ get; set; }
         public virtual  Item? Item{ get; set; }

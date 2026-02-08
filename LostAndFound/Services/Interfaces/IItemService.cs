@@ -5,7 +5,7 @@ namespace LostAndFound.Services.Interfaces;
 
 public interface IItemService
 {
-    Task<Item?>GetItemIdAsync(int id);
+    Task<Item?>GetItemByIdAsync(int id);
     Task<(IEnumerable<Item> Items, int TotalCount)> GetItemsAsync(ItemFilterDto filter);
     Task<Item> CreateItemAsync(CreateItemDto dto, string userId);
     Task<Item?>UpdateItemAsync(int id,UpdateItemDto dto, string userId) ;
@@ -14,4 +14,6 @@ public interface IItemService
     Task<ItemComment> AddCommentAsync(int itemId, CreateCommentDto dto, string userId);
     Task<IEnumerable<ItemComment>> GetItemCommentsAsync(int itemId);
     Task<Item?> UpdateItemStausAsync(int id, UpdateItemStatusDto dto, string userId, bool isAdmin);
+    Task<(object items, double totalCount)> GetItemIdAsync(ItemFilterDto filter);
+    Task GetItemIdAsync(object id);
 }

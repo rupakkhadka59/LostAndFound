@@ -1,6 +1,8 @@
-﻿using LostAndFound.Models;
+﻿using LostAndFound.Data;
+using LostAndFound.Models;
 using LostAndFound.Models.DTOs;
 using LostAndFound.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LostAndFound.Services.Implementations;
 
@@ -134,7 +136,9 @@ public class ItemService : IItemService
     {
         if (!isAdmin)
             return null;
-        var item = await _context.Items.Include(i => i.ReportedByUser).FirstOrDefaultAsync(i => i.Id = id);
+        var item = await _context.Items
+            .Include(i => i.ReportedByUser)
+            .FirstOrDefaultAsync(i => i.Id ==id);
         if (item == null)
             return null;
         var oldStatus = item.Status;
@@ -180,5 +184,25 @@ public class ItemService : IItemService
             .Where(c => c.ItemId == itemId)
             .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
+    }
+
+    Task<(IEnumerable<Item> Items, int TotalCount)> IItemService.GetItemsAsync(ItemFilterDto filter)
+    {
+        return GetItemsAsync(filter);
+    }
+
+    public Task<Item?> UpdateItemStatusAsync(int id, UpdateItemStatusDto dto, string UserId, bool isAdmin)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<(object items, double totalCount)> GetItemIdAsync(ItemFilterDto filter)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task GetItemIdAsync(object id)
+    {
+        throw new NotImplementedException();
     }
 }

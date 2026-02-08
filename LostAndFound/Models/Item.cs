@@ -4,6 +4,9 @@ namespace LostAndFound.Models
 {
     public class Item
     {
+        internal readonly bool IsRead;
+        internal readonly object UserId;
+        internal readonly object id;
 
         public int Id { get; set; }
         [Required]
@@ -16,11 +19,11 @@ namespace LostAndFound.Models
         public ItemCategory Category { get; set; }
 
         public ItemStatus status { get; set; } = ItemStatus.Lost;
-
+        public ItemStatus Status { get; internal set; }
         [MaxLength(200)]
         public string? Location { get; set; }
 
-        public DateTime ReportedAt { get; set; } = DateTime.UtcNow;
+        public DateTime DateReported { get; set; } = DateTime.UtcNow;
 
         public DateTime? DateFound { get; set; }
         public DateTime? DateReturned { get; set; }
